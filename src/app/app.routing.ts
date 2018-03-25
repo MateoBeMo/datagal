@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
@@ -6,8 +6,5 @@ const routes: Routes = [
   { path: '', redirectTo: '/calendar', pathMatch: 'full' },
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const AppRouting: ModuleWithProviders = RouterModule.forRoot(routes,
+  { useHash: false,  enableTracing: true  });
