@@ -1,0 +1,19 @@
+.login-wrapper, .aparcao {
+    background-image: url(../../images/red-flow-background.jpg);
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: right center;
+  }
+.login-wrapper .login {
+    min-height: 70vh;
+}
+.has-error { 
+    border:1px solid red;
+
+}
+.label-error { 
+    color:red;
+}
+.has-success { 
+    border:1px solid green;
+}

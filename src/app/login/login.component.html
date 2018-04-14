@@ -1,0 +1,45 @@
+<div class="login-wrapper aparcao"> 
+  <form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label class="title">
+          <h3 class="welcome">Bienvenido a</h3>
+          Datagal
+          <h5 class="hint">Utiliza tu nombre de usuario para acceder</h5>
+      </label>
+      <div class="login-group">
+          <!-- Issue with double underline to the first input ¿!!¿-->
+          <!-- <label for="login" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" >
+              <input style="display:none" class="username" type="text" id="login" placeholder="Nombre de usuario">
+          </label> -->
+
+
+          <label for="login_username" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="loginForm.get('username').invalid
+                  && (loginForm.get('username').dirty || loginForm.get('username').touched)">
+
+              <input class="username" type="text" id="login_username" placeholder="Nombre de usuario" formControlName="username">
+              <span class="tooltip-content">
+                  El nombre de usuario es obligatorio
+              </span>
+          </label>
+
+          <label for="login_password" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="loginForm.get('password').hasError('required')
+                  && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+
+              <input class="password" type="password" id="login_password" formControlName="password" placeholder="Contraseña">
+              <span class="tooltip-content">
+                  La contraseña es obligatoria
+              </span>
+          </label>
+          <div class="checkbox">
+              <input type="checkbox" id="rememberme">
+              <label for="rememberme">
+                  Recuérdame
+              </label>
+          </div>
+          <div class="error active" *ngIf="loginError">
+              Ese nombre de usuario no es válido. Contacta con el administrador del sistema si tienes problemas para iniciar sesión.
+          </div>
+
+          <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Iniciar sesión</button>
+      </div>
+  </form>
+</div>

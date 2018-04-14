@@ -1,0 +1,33 @@
+:host ::ng-deep {
+    .menu {
+        margin: 0 -4px;
+        padding: 30px;
+    }
+    .menu .ui-state-active{
+        color: white!important;
+    }
+}
+.datagal-header {
+    margin: 0 -4px;
+    padding: 0px;
+}
+.clr-icon {
+    &.clr-clarity-logo {
+        background-image: url(../../images/logo.png);
+        height: 36px;
+        width: 36px;
+        margin-right: 11px;
+    }
+  }
+  .search_input {
+    width: 400px;
+} 
+  @media screen and (max-width: 768px) {
+      .search_input {
+          text-overflow: ellipsis;
+          width: 180px;
+      }
+      .search {
+          justify-content: space-between
+      }
+  }

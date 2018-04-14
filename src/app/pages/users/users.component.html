@@ -1,0 +1,173 @@
+<button type="button"
+    class="btn btn-outline btn-sm" (click)="onActionSelected(undefined, 'new')">
+    <clr-icon shape="plus"></clr-icon> Nuevo usuario
+</button>
+<clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+
+    <clr-dg-column [clrDgField]="'username'">Nombre de usuario</clr-dg-column>
+    <clr-dg-column>Email</clr-dg-column>
+    <clr-dg-column>Permisos</clr-dg-column>
+    <clr-dg-column>Contraseña</clr-dg-column>
+
+    <clr-dg-row *ngFor="let user of users">
+        <clr-dg-action-overflow>
+            <button class="action-item" (click)="onActionSelected(user, 'edit')">Editar</button>
+            <button class="action-item" (click)="onActionSelected(user, 'remove')">Eliminar</button>
+        </clr-dg-action-overflow>
+        <clr-dg-cell>{{user.username}}</clr-dg-cell>
+        <clr-dg-cell>{{user.email}}</clr-dg-cell>
+        <clr-dg-cell>{{user.role}}</clr-dg-cell>
+        <clr-dg-cell>*******</clr-dg-cell>
+    </clr-dg-row>
+
+
+    <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{total}} users
+        <clr-dg-pagination #pagination [clrDgPageSize]="limit" [(clrDgPage)]="currentPage" [clrDgTotalItems]="total"></clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="modalConfig.openModal" [clrModalSize]="'md'">
+
+    <h3 *ngIf="modalConfig.mode == 'edit'" class="modal-title">Editando
+        <strong>{{ modalConfig.userForm.get('username').value }}</strong>
+    </h3>
+    <h3 *ngIf="modalConfig.mode == 'new'" class="modal-title">Alta de usuario</h3>
+    <h3 *ngIf="modalConfig.mode == 'remove'" class="modal-title">Eliminar usuario del sistema</h3>
+
+    <div class="modal-body" *ngIf="modalConfig.mode == 'edit' || modalConfig.mode == 'new'">
+        <clr-alert *ngIf="modalConfig.mode == 'new'" [clrAlertClosable]="false">
+            <div clr-alert-item class="alert-item">
+                <span class="alert-text">
+                    Esta es la única forma de dar de alta un usuario para que tenga acceso a la aplicación móvil y aplicación web.
+                </span>
+            </div>
+        </clr-alert>
+        <form [formGroup]="modalConfig.userForm">
+            <section class="form-block">
+
+                <div class="form-group">
+                    <label for="username" [class.required]="modalConfig.mode == 'new'">Usuario</label>
+                    <input type="text" placeholder="Nombre de usuario" id="username" name="firstName" formControlName="username">
+                    <clr-tooltip *ngIf="modalConfig.mode == 'new'">
+                        <clr-icon clrTooltipTrigger shape="info-circle" class="is-info" size="24"></clr-icon>
+                        <clr-tooltip-content clrPosition="bottom-left" clrSize="md" *clrIfOpen>
+                            Este campo es
+                            <strong>único</strong> y será proporcionado junto a la contraseña al usuario para poder iniciar sesión.
+                        </clr-tooltip-content>
+                    </clr-tooltip>
+                </div>
+                <div class="form-group">
+                    <label for="password" [class.required]="modalConfig.mode == 'new'">Contraseña</label>
+                    <label for="password" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-md tooltip-top-left"
+                        [class.invalid]="modalConfig.userForm.errors?.mismatch && (modalConfig.userForm.get('password').dirty || modalConfig.userForm.get('password').touched) && (modalConfig.userForm.get('passwordConfirm').dirty || modalConfig.userForm.get('passwordConfirm').touched)">
+                        <input [type]="revealPassword" id="password" placeholder="Introduce una nueva contraseña" name="password" formControlName="password">
+                        <span class="tooltip-content">
+                            Deben coincidir las contraseñas.
+                        </span>
+                    </label>
+                    <button type="button" unselectable="on" class="btn btn-icon btn-sm" (mouseup)="revealPassword = 'password'" (mousedown)="revealPassword = 'text'">
+                        <clr-icon shape="eye"></clr-icon>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="passwordConfirm" [class.required]="modalConfig.mode == 'new'">Repite la contraseña</label>
+
+                    <label for="passwordConfirm" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="modalConfig.userForm.errors?.mismatch && (modalConfig.userForm.get('passwordConfirm').dirty || modalConfig.userForm.get('passwordConfirm').touched) && (modalConfig.userForm.get('password').dirty || modalConfig.userForm.get('password').touched)">
+                        <input [type]="revealPassword" id="passwordConfirm" placeholder="Repite la contraseña" name="passwordConfirm" formControlName="passwordConfirm">
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <label for="email" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-top-left" [class.invalid]="modalConfig.userForm.get('email').invalid && (modalConfig.userForm.get('email').dirty || modalConfig.userForm.get('email').touched)">
+                        <input type="text" id="email" placeholder="Introduce el email" name="email" formControlName="email">
+                        <span class="tooltip-content">
+                            Debe ser una dirección de email válida.
+                        </span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="required">Permisos</label>
+
+                    <div class="radio">
+                        <input formControlName="role" value="admin" type="radio" name="role" id="admin">
+                        <label for="admin">Administrador</label>
+                        <clr-tooltip>
+                            <clr-icon clrTooltipTrigger shape="info-circle" class="is-info" size="24"></clr-icon>
+                            <clr-tooltip-content clrPosition="top-left" clrSize="md" *clrIfOpen>
+                                El administrador tiene acceso tanto a la aplicación web como a la aplicación móvil y es capaz de realizar
+                                <strong>todas</strong> las acciones:
+                                <ul class="list">
+                                    <li>Gestionar usuarios (incluido editar y borrar)
+                                        <clr-icon shape="exclamation-triangle" class="is-warning"></clr-icon>
+                                    </li>
+                                    <li>Controlar accesos</li>
+                                    <li>Ver listados</li>
+                                    <li>Ver accesos</li>
+                                    <li>Crear servicios</li>
+                                    <li>Generar y gestionar reservas</li>
+                                </ul>
+                            </clr-tooltip-content>
+                        </clr-tooltip>
+                    </div>
+                    <div class="radio">
+
+                        <input formControlName="role" value="vendor" type="radio" name="role" id="vendor" checked>
+                        <label for="vendor">Punto de venta</label>
+                        <clr-tooltip>
+                            <clr-icon clrTooltipTrigger shape="info-circle" class="is-info" size="24"></clr-icon>
+                            <clr-tooltip-content clrPosition="top-left" clrSize="md" *clrIfOpen>
+                                El punto de venta tiene acceso a la
+                                <strong>aplicación web</strong> y es capaz de realizar distintas acciones:
+                                <ul class="list">
+                                    <li>Generar y gestionar reservas</li>
+                                    <li>Listar viajes y ver su estado</li>
+                                </ul>
+                            </clr-tooltip-content>
+                        </clr-tooltip>
+                    </div>
+                    <div class="radio">
+                        <input formControlName="role" value="controller" type="radio" name="role" id="controller" checked>
+                        <label for="controller">Controlador</label>
+                        <clr-tooltip>
+                            <clr-icon clrTooltipTrigger shape="info-circle" class="is-info" size="24"></clr-icon>
+                            <clr-tooltip-content clrPosition="top-left" clrSize="md" *clrIfOpen>
+                                El controlador tiene acceso a la
+                                <strong>aplicación móvil</strong> y es capaz de realizar distintas acciones:
+                                <ul class="list">
+                                    <li>Controlar accesos</li>
+                                    <li>Listar pasajeros</li>
+                                </ul>
+                            </clr-tooltip-content>
+                        </clr-tooltip>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+
+    <div class="modal-body" *ngIf="modalConfig.mode == 'remove'">
+        <p>¿Seguro que quieres eliminar el usuario
+            <strong>{{ modalConfig.userForm.get('username').value }}</strong>?</p>
+        <p>Este usuario perderá el acceso
+            <label *ngIf="modalConfig.userForm.get('role').value === 'vendor'">a la aplicación web</label>
+            <label *ngIf="modalConfig.userForm.get('role').value === 'controller'">a la aplicación móvil</label>
+            <label *ngIf="modalConfig.userForm.get('role').value === 'admin'">tanto a la aplicación web como a la aplicación móvil</label>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalConfig.openModal = false">Cancelar</button>
+
+        <button *ngIf="modalConfig.mode == 'remove'" type="button" class="btn btn-danger" (click)="onSubmit()">
+            <clr-icon shape="trash"></clr-icon> Eliminar
+        </button>
+        <button *ngIf="modalConfig.mode == 'edit'" [disabled]="modalConfig.userForm.invalid || !modalConfig.userForm.dirty" type="button"
+            class="btn btn-primary" (click)="onSubmit()">
+            <clr-icon shape="pencil"></clr-icon> Editar
+        </button>
+        <button *ngIf="modalConfig.mode == 'new'" [disabled]="modalConfig.userForm.invalid || !modalConfig.userForm.dirty" type="button"
+            class="btn btn-primary" (click)="onSubmit()">
+            <clr-icon shape="floppy"></clr-icon> Dar de alta
+        </button>
+    </div>
+</clr-modal>

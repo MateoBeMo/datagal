@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { CalendarComponent } from './calendar.component';
 import { CalendarRouting } from './calendar.routing';
 import { ScheduleModule } from 'primeng/schedule';
+import { DialogModule } from 'primeng/dialog';
+import { FlexLayoutModule } from '@angular/flex-layout'
 
 @NgModule({
   imports: [
     CommonModule,
     ScheduleModule,
-    CalendarRouting
+    DialogModule,
+    CalendarRouting,
+    FlexLayoutModule
   ],
   declarations: [
     CalendarComponent

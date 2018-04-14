@@ -1,0 +1,30 @@
+<h3 class="first">Detalles del evento</h3>
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+            <input type="text" pInputText placeholder="Username">         
+        </div>
+    </div>
+    
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">$</span>
+            <input type="text" pInputText placeholder="Price">   
+            <span class="ui-inputgroup-addon">.00</span>      
+        </div>
+    </div>
+            
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">www</span>
+            <input type="text" pInputText placeholder="Website">      
+        </div>
+    </div>
+</div>
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-4">
+        <h3>Range</h3>
+        <p-calendar styleClass="calendar" [(ngModel)]="rangeDates" showButtonBar="true" [showIcon]="true" [locale]="es"  [showTime]="true" selectionMode="range" dateFormat="dd/mm/yy" readonlyInput="true"></p-calendar>
+    </div>
+</div>
