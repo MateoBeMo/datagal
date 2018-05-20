@@ -1,0 +1,83 @@
+<div class="container">
+    <h2>Crear un nuevo viaje</h2>
+    <form class="form" [formGroup]="eventForm" (ngSubmit)="onSubmit()" [hidden]="submitted">
+        <section class="form-block">
+            <!-- <label>Añade un nuevo viaje</label> -->
+            <div class="form-group">
+                <label for="title">Título del viaje: </label>
+                <label for="title" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="eventForm.get('title').invalid
+                        && (eventForm.get('title').dirty || eventForm.get('title').touched)">
+                    <input #title id="title" type="text" formControlName="title">
+                    <span class="tooltip-content">
+                        Campo obligatorio.
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="startTime">Empieza: </label>
+                <input id="startTime" formControlName="start" type="date" clrDate>
+                <div class="date-error">
+                    <label for="startTime" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="eventForm.get('start').invalid
+                    && (eventForm.get('start').dirty ||
+                    eventForm.get('start').touched)">
+                        <span class="tooltip-content">
+                            Campo obligatorio.
+                        </span>
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="endTime">Termina: </label>
+                <input id="endTime" formControlName="end" type="date" clrDate>
+                <div class="date-error">
+                    <label for="endTime" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="eventForm.get('end').invalid
+                        && (eventForm.get('end').dirty || eventForm.get('end').touched)">
+                        <span class="tooltip-content">
+                            Campo obligatorio.
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="from">Origen: </label>
+                <label for="from" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="eventForm.get('from').invalid
+                        && (eventForm.get('from').dirty || eventForm.get('from').touched)">
+                    <input id="from" type="text" formControlName="from">
+                    <span class="tooltip-content">
+                        Campo obligatorio.
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="to">Destino: </label>
+                <label for="to" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-sm" [class.invalid]="eventForm.get('to').invalid
+                                    && (eventForm.get('to').dirty ||
+                                    eventForm.get('to').touched)">
+                    <input id="to" type="text" formControlName="to">
+                    <span class="tooltip-content">
+                        Campo obligatorio.
+                    </span>
+                </label>
+            </div>
+            <div class="form-group">
+
+                <label for="driver" [class.invalid]="eventForm.get('end').invalid && (eventForm.get('end').dirty || eventForm.get('end').touched)">
+                    Conductor:
+                </label>
+                <div class="select">
+                    <select id="driver" formControlName="driver">
+                        <option>Conductor 1</option>
+                        <option>Conductor 2</option>
+                        <option>Conductor 3</option>
+                        <option>Conductor 4</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <!-- {{ eventForm.value | json}} -->
+            <button class="btn btn-primary" type="submit" [disabled]="eventForm.invalid">Crear</button>
+        </section>
+    </form>
+</div>

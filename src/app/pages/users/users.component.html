@@ -1,9 +1,10 @@
+<div class="container">
 <button type="button"
     class="btn btn-outline btn-sm" (click)="onActionSelected(undefined, 'new')">
     <clr-icon shape="plus"></clr-icon> Nuevo usuario
 </button>
-<clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
-
+<!-- <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading"> -->
+<clr-datagrid (clrDgRefresh)="refresh($event)">
     <clr-dg-column [clrDgField]="'username'">Nombre de usuario</clr-dg-column>
     <clr-dg-column>Email</clr-dg-column>
     <clr-dg-column>Permisos</clr-dg-column>
@@ -171,3 +172,4 @@
         </button>
     </div>
 </clr-modal>
+</div>

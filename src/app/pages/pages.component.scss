@@ -6,6 +6,9 @@
     .menu .ui-state-active{
         color: white!important;
     }
+    .side-nav {
+        padding: 0 !important;
+    }
 }
 .datagal-header {
     margin: 0 -4px;
@@ -31,3 +34,9 @@
           justify-content: space-between
       }
   }
+  .mobile {
+    margin: 0;
+    width: 100%;
+    background-color: #eef1f4;;
+  }
+ 

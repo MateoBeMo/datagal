@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-event-creation',
-  templateUrl: './event-creation.component.html',
-  styleUrls: ['./event-creation.component.scss']
+  selector: 'app-event-edition',
+  templateUrl: './event-edition.component.html',
+  styleUrls: ['./event-edition.component.scss']
 })
-export class EventCreationComponent implements OnInit {
-
-  rangeDates: Date[];
+export class EventEditionComponent implements OnInit {
   es: any;
-
   constructor() { }
 
   ngOnInit() {

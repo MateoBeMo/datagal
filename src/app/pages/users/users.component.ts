@@ -1,8 +1,7 @@
+import { UsersService } from './../../../shared/services/users.service';
 import { Component, OnInit } from "@angular/core";
 
 import { ClrDatagridStateInterface } from "@clr/angular";
-
-import { UsersService } from './users.service';
 import { User, UserResponse } from '../../../shared/models/user';
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 @Component({
@@ -12,7 +11,6 @@ import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from
 export class UsersComponent {
     public users: User[];
     public total: number;
-    public limit: number;
     public loading: boolean = true;
     public currentPage: number = 1;
     public modalConfig: any = {
@@ -39,6 +37,7 @@ export class UsersComponent {
         this.loading = true;
         // We convert the filters from an array to a map, to facilitate the access
         let filters: { [prop: string]: any[] } = {};
+        console.log(state);
         if (state.filters) {
             for (let filter of state.filters) {
                 let { property, value } = <{ property: string, value: string }>filter;
@@ -50,13 +49,12 @@ export class UsersComponent {
     }
 
     getUsers(username) {
-        // this.service.getUsers(username, this.currentPage).subscribe((res) => {
-        //     console.log(res);
-        //     this.limit = res.limit;
-        //     this.users = res.docs;
-        //     this.total = res.total;
-        //     this.loading = false;
-        // });
+        this.service.getUsers(username, this.currentPage).subscribe((res) => {
+            console.log(res);
+            this.users = res.data;
+            this.total = res.total;
+            this.loading = false;
+        });
     }
     editUser() {
         const user: User = {
@@ -67,7 +65,6 @@ export class UsersComponent {
         if (this.modalConfig.userForm.get('password').value.toString()) {
             user.password = this.modalConfig.userForm.get('password').value.toString()
         }
-        console.log(user);
         // this.service.editUsers(user).subscribe((userEdited) => {
         //     console.log('Edit:');
         //     console.log(userEdited);

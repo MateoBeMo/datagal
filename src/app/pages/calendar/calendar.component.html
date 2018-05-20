@@ -5,11 +5,9 @@
   fxLayoutGap="10px"
   fxLayoutGap.xs="0"
 >
-  <div fxFlex="80%"> 
-    <p-schedule [events]="events" [header]="header" [eventLimit]="4" [editable]="true" 
-      locale="es" (onEventClick)="handleEventClick($event)"></p-schedule>
+  <div fxFlex="100%"> 
+    <p-schedule [height]="innerHeight" styleClass="calendar" [events]="events" [header]="header" [eventLimit]="4" [editable]="true" 
+      locale="es" (onEventClick)="handleEventClick($event)" (onDayClick)="handleDayClick($event)"></p-schedule>
   </div>
   
 </div>
-
-<!-- (onViewRender)="loadEvents($event)" -->

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { SidenavMode } from '../constants/custom-types';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Injectable()
 export class ToggleSidenavService {
@@ -15,7 +16,16 @@ export class ToggleSidenavService {
   private showSidenavSubject: BehaviorSubject<boolean>;
   private sidenavModeSubject: BehaviorSubject<string>;
 
-  constructor() {
+  constructor(public breakpointObserver: BreakpointObserver,) {
+
+    this.breakpointObserver.observe(['(min-width: 500px)']).subscribe((state: BreakpointState) => {
+        if (state.matches) {
+            console.log('Viewport is 500px or over!');
+        } else {
+            console.log('Viewport is getting smaller!');
+        }
+    });
+    
     this._showSidenav = window.innerWidth <= 980;
     this._sidenavMode = window.innerWidth > 980 ? 'over' : 'side';
     this.showSidenavSubject = new BehaviorSubject<boolean>(this._showSidenav);

@@ -6,7 +6,6 @@ import { ClarityModule } from '@clr/angular';
 
 import { UsersComponent } from './users.component';
 import { routing } from './users.routing';
-import { UsersService } from './users.service';
 
 @NgModule({
     imports: [
@@ -20,7 +19,6 @@ import { UsersService } from './users.service';
         UsersComponent
     ],
     providers: [
-        UsersService
     ]
 })
 export class UsersModule { }

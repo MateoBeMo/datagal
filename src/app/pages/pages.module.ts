@@ -10,6 +10,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ClarityModule } from "@clr/angular";
+import { SidebarModule } from 'primeng/sidebar';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ClarityModule } from "@clr/angular";
     FormsModule,
     MenubarModule,
     PagesRouting,
-    ClarityModule
+    ClarityModule,
+    SidebarModule,
   ],
   declarations: [
     PagesComponent,

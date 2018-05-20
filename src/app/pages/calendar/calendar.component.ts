@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { CalendarDialogService } from './../calendar/calendar-dialog.service';
+import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EventService } from '../../../shared/services';
+import { EventService, ToggleSidenavService } from '../../../shared/services';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-calendar',
@@ -11,62 +13,62 @@ export class CalendarComponent implements OnInit {
 
   events: any ;
   header: any;
+  innerHeight: any;
+  isOpened = false;
+  dateSelected: Date;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private eventService: EventService
-) { }
+    private eventService: EventService,
+    private dialogService: CalendarDialogService, 
+    private elRef: ElementRef
+) {
+ }
 
   ngOnInit() {
-  //   this.events = [
-  //     {
-  //       id: 1,
-  //       title: 'All Day Event',
-  //       start: '2018-03-01'
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'Long Event',
-  //       start: '2018-01-07',
-  //       end: '2018-03-10'
-  //     },
-  //     {
-  //       id: 3,
-  //       title: 'Repeating Event',
-  //       start: '2018-03-09T16:00:00'
-  //     },
-  //     {
-  //       id: 4,
-  //       title: 'Repeating Event',
-  //       start: '2018-03-16T16:00:00'
-  //     },
-  //     {
-  //       id: 5,
-  //       title: 'Conference',
-  //       start: '2018-03-11',
-  //       end: '2018-03-13'
-  //     },
-  //     {
-  //       id: 6,
-  //       title: 'Prueba',
-  //       start: '2018-04-01T16:00:00',
-  //       end: '2018-04-01T17:00:00'
-  //   }
-  // ];
-  this.eventService.getAll().subscribe( events => {
-    this.events = events;
-  })
-  this.header = {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'month,agendaWeek,agendaDay'
-};
+    // height of screen less header height and margin
+    this.innerHeight = (window.screen.height) - 160;
+    this.eventService.getAll().subscribe( events => {
+      this.events = events;
+      // console.log(this.events[1].start);
+      // console.log(this.events[1].end);
+      // const aparcao = this.getDates(new Date (this.events[1].start), new Date(this.events[1].end));
+      // console.log(aparcao);
+      })
+    this.header = {
+      left: 'prev,next',
+      center: 'title',
+      right: 'today,month,agendaWeek,agendaDay'
+    };
   }
   handleEventClick(event: any) {
       // console.log(event.calEvent.id);
       console.log(event);
-      this.router.navigate(['pages/event', event.calEvent.id]);
+      // this.router.navigate(['pages/event', event.calEvent.id]);
   }
+  handleDayClick(day: any) {
+    // console.log(day);
+    this.dateSelected = day.date._d;
+    const searchDate = new Date(this.dateSelected).toISOString().split('T')[0];
+    // console.log(searchDate);
+    this.eventService.findByDate(searchDate).subscribe( events => {
+      this.dialogService.open(this.elRef, searchDate, events ).subscribe( selected => {
+      });
+    });
+    this.elRef.nativeElement = day.jsEvent.target;
+   
+  }
+
+  getDates(startDate, endDate) {
+    const dateArray = [];
+    let currentDate = moment(startDate);
+    const stopDate = moment(endDate);
+    while (currentDate <= stopDate) {
+        dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+        currentDate = moment(currentDate).add(1, 'days');
+    }
+    return dateArray;
+}
 
 }

@@ -8,7 +8,7 @@ import { PageDescriptor } from '../pagination/pageDescriptor.model';
 import { UrlBuilder } from '../pagination/urlBuilder.helper';
 import { Service } from '../interfaces/service.interface';
 
-
+ 
 
 @Injectable()
 export class EventService  implements Service<EventModel> {
@@ -19,8 +19,14 @@ export class EventService  implements Service<EventModel> {
     getItem(id: string): Observable<EventModel> {
         throw new Error('Method not implemented.');
     }
-    getAll(pageDescriptor?: PageDescriptor): Observable<EventModel[]> {
-        return this.http.get<EventModel[]>(`${this.hostUrl}/event`);
+    getAll(pageDescriptor?: PageDescriptor): Observable<EnvelopeResponse<EventModel>>  {
+        return this.http.get<EnvelopeResponse<EventModel>>(`${this.hostUrl}/event`);
+    }
+    getEvents(pageNumber: number): Observable<EventModel[]> {
+        return this.http.get<EventModel[]>(`${this.hostUrl}/event?_page=${pageNumber}`);
+    }
+    findByDate(date: String): Observable<EventModel[]> {
+        return this.http.get<EventModel[]>(`${this.hostUrl}/event?q=${date}`);
     }
     exists(id: string): Promise<boolean> {
         throw new Error('Method not implemented.');

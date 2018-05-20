@@ -16,6 +16,7 @@ export class PagesComponent implements OnInit {
   public currentSidenavMode: SidenavMode;
   constructor(private toggleService: ToggleSidenavService) { }
   public collapsed: boolean;
+  public display: boolean;
   public sideNavLinks = [];
   public subHeaderLinks = [];
 

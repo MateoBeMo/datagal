@@ -1,46 +1,18 @@
-<!-- <header class="datagal-header">
-<div *ngIf="!showSidenav">
-    <p-menubar styleClass="menu" [model]="items" [autoDisplay]="false">
-        <div>
-            <input type="text" pInputText placeholder="Search">
-            <button pButton label="Logout" icon="fa-sign-out"></button>
-        </div>
-    </p-menubar>
-</div>
-<div *ngIf="showSidenav">
-    <p-slideMenu #menu  [model]="items" [popup]="true" effectDuration="1000" easing="ease-in"></p-slideMenu>
-    <button #btn type="button" pButton icon="fa fa-list" label="Show" (click)="menu.toggle($event)"></button>
-</div>
-</header> -->
-<!-- <clr-main-container>
-    <clr-header>
-      <div class="branding">
-        <a href="#" class="nav-link">
-          <span class="clr-icon clr-clarity-logo"></span>
-          <span class="title">Datagal</span>
-        </a>
-      </div>
-        <div class="header-nav" [clr-nav-level]="1">
-            <a class="nav-link" href="#" [routerLink]="['calendar']" routerLinkActive="active"><span class="nav-text">Calendar</span></a>
-            <a class="nav-link" href="#" [routerLink]="['event']" routerLinkActive="active"><span class="nav-text">Event</span></a>
-        </div>
-      <div class="header-actions">
-      </div>
-    </clr-header>
-    <div class="content-container">
-      <div class="content-area">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </clr-main-container> -->
   <clr-main-container>
     <clr-header>
+            <div *ngIf="showSidenav" class="header-nav">
+                    <a (click)="display = true" class="active nav-link nav-icon">
+                            <clr-icon shape="bars"></clr-icon>
+                    </a>
+            </div>
         <div class="branding">
             <a [routerLink]="['/']" class="nav-link">
                 <span class="clr-icon clr-clarity-logo"></span>
                 <span class="title">Datagal</span>
             </a>
         </div>
+        
+        
         <form class="search">
             <label for="search_input">
                 <input id="search_input" class="search_input" type="text" placeholder="Número de reserva o nombre del pasajero">
@@ -53,33 +25,36 @@
             </div> -->
         </form>
         <div class="header-actions">
-                <a class="nav-link nav-icon">
-                    <clr-icon class="is-solid" shape="administrator"></clr-icon>
-                </a>
-            <clr-dropdown>
-                <button class="nav-text" clrDropdownTrigger>
-                    john.doe@vmware.com
-                    <clr-icon shape="caret down"></clr-icon>
-                </button>
-                <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                    <a clrDropdownItem>Preferencias</a>
-                    <a routerLink="/login" clrDropdownItem>Cerrar sesión</a>
-                </clr-dropdown-menu>
-            </clr-dropdown>
-        </div>
+                <clr-dropdown>
+                    <button class="nav-icon" clrDropdownTrigger>
+                        <clr-icon shape="user"></clr-icon>
+                        <clr-icon shape="caret down"></clr-icon>
+                    </button>
+                    <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                        <a href="..." clrDropdownItem>About</a>
+                        <a href="..." clrDropdownItem>Preferences</a>
+                        <a href="..." clrDropdownItem>Log out</a>
+                    </clr-dropdown-menu>
+                </clr-dropdown>
+            </div>
     </clr-header>
     <div class="content-container">
         <div class="content-area">
             <router-outlet></router-outlet>
         </div>
-        <clr-vertical-nav [clrVerticalNavCollapsible]="true" class="nav-trigger--bottom" [(clrVerticalNavCollapsed)]="collapsed">
-            <a *ngFor="let link of sideNavLinks" clrVerticalNavLink [routerLink]="link.link" routerLinkActive="active">
-                <clr-icon class="is-solid" clrVerticalNavIcon [attr.shape]="link.icon"></clr-icon>
-                {{ link.label }}
-            </a>
-            <!-- <a class="nav-link" href="#" [routerLink]="['calendar']" routerLinkActive="active"><span class="nav-text">Calendar</span></a>
-            <a class="nav-link" href="#" [routerLink]="['event']" routerLinkActive="active"><span class="nav-text">Event</span></a> -->
-
+        <clr-vertical-nav *ngIf="!showSidenav" [clrVerticalNavCollapsible]="true" class="nav-trigger--bottom" [(clrVerticalNavCollapsed)]="collapsed">
+                <a *ngFor="let link of sideNavLinks" clrVerticalNavLink [routerLink]="link.link" routerLinkActive="active">
+                    <clr-icon class="is-solid" clrVerticalNavIcon [attr.shape]="link.icon"></clr-icon>
+                    {{ link.label }}
+                </a>
         </clr-vertical-nav>
+        <p-sidebar styleClass="side-nav" *ngIf="showSidenav" [(visible)]="display">
+                <clr-vertical-nav class="mobile">
+                        <a *ngFor="let link of sideNavLinks" clrVerticalNavLink (click)="display = false" [routerLink]="link.link" routerLinkActive="active">
+                            <clr-icon class="is-solid" clrVerticalNavIcon [attr.shape]="link.icon"></clr-icon>
+                            {{ link.label }}
+                        </a>
+               </clr-vertical-nav> 
+        </p-sidebar>
     </div>
 </clr-main-container>

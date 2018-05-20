@@ -3,4 +3,5 @@ export interface EnvelopeResponse<T> {
 	skip: number | undefined;
 	take: number | undefined;
 	total: number;
+	pages: number | undefined;
 }

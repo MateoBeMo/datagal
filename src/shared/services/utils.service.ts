@@ -9,7 +9,7 @@ export class UtilsService {
 
     constructor() { }
 
-    buildParams(obj) {
+    buildParams(obj: any) {
         // Build url params - Accepts 0 but not empty string
         let params = new HttpParams();
         for (const key in obj) {
@@ -25,8 +25,8 @@ export class UtilsService {
     jwt() {
         // create authorization header with jwt
         // const token = localStorage.getItem('auth_token');
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWNjYmI3YjAzNGEyZDA0ZWMwY2UxN2QiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTIzMzcwNjI3fQ.2tBj-kG1b1tm_v9RTKbWOUSrT1ERZ6ZGPXGUk2-gtk8';
-        const headers = new HttpHeaders().set('Authorization', token);
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWU2MTg0OTdkN2I5MDAwMWNjMWJiOWUiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTI1MDI4OTM3fQ.MT9b7qfbT4Fl3wM1PrpiZ9eaLrgTghb_dhypd_VrxuU';
+        const headers = new HttpHeaders().set('x-auth', token);
 
         return headers;
     }
